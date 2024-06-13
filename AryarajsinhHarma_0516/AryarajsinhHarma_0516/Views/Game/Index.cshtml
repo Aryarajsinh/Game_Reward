@@ -1,0 +1,167 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_CustomLayout.cshtml";
+
+}
+
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="~/Scripts/toastr.min.js"></script>
+<link href="~/Content/toastr.min.css" rel="stylesheet" />
+
+@if (TempData["login"] != null)
+{
+    <script>
+        toastr.success('@TempData["login"]')
+
+    </script>
+}
+
+<div class="row ms-2">
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Total Balance
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.Balanceamount</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-money-bill fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Chance Left
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-danger">@ViewBag.RemainingChances</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-flag-checkered fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Today Profit 
+                        </div>
+                        <div class="h5 text-success mb-0 font-weight-bold ">+ @ViewBag.getTodayProfits</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-rupee-sign fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Total Profit 
+                        </div>
+                        <div class="h5 text-success mb-0 font-weight-bold ">+ @ViewBag.GetAllProfits</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-rupee-sign fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Total Debited Amount Today 
+                        </div>
+                        <div class="h5 text-danger mb-0 font-weight-bold "> @ViewBag.DebitAmountToday</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-rupee-sign fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="dashboardjackpot">
+    <div class="card w-50" style=" margin: 20px auto; width: 60%; background-color: #f0f0f0; border: 5px solid #ffd700; padding: 20px; border-radius: 15px; box-shadow: 0 0 20px rgba(0,0,0,0.1);">
+        <div>
+            <h1 class="text-center">Spin And win</h1>
+        </div>
+        <div class=" d-flex" style=" height: 300px; border-radius: 15px; margin-bottom: 20px; display: flex; justify-content: center; align-items: center;">
+
+            <div class="card reel card-1" style="background: #ffd700; color: #333; padding: 20px; border-radius: 10px; width: 30%; font-size: 1.5em;">
+                <h2 id="card-1" class="my-auto " style="padding-left:50px ; font-size:50px"></h2>
+            </div>
+            <div class="card reel card-2" style="background: #ffd700; color: #333; padding: 20px; border-radius: 10px; width: 30%; font-size: 1.5em;">
+                <h2 id="card-2" class="my-auto" style="padding-left:50px ; font-size:50px"></h2>
+            </div>
+            <div class="card reel card-3" style="background: #ffd700; color: #333; padding: 20px; border-radius: 10px; width: 30%; font-size: 1.5em;">
+                <h2 id="card-3" class="my-auto" style="padding-left:50px ; font-size:50px"></h2>
+            </div>
+        </div>
+        <div class="text-center">
+            <a href="GamePlay" class="btn btn-success ">Play Game</a>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .dashboardjackpot {
+        margin-top: 120px
+    }
+
+    .reel {
+        width: 30%;
+        height: 100%;
+        border: 2px solid #ffd700;
+        border-radius: 10px;
+        margin: 0 1%;
+        background: rgba(255, 215, 0, 0.3);
+        color: red;
+        font-size: 2em;
+        line-height: 300px;
+    }
+</style>
+
+<script>
+   
+    const cards = document.querySelectorAll('.card h2');
+
+    function generateNumbers() {
+        for (let i = 0; i < cards.length; i++) {
+            const randomNumber = Math.floor(Math.random() * 100) + 1;
+            cards[i].textContent = randomNumber;
+        }
+    }
+
+    setInterval(generateNumbers, 100);
+</script>
+
+
+
+

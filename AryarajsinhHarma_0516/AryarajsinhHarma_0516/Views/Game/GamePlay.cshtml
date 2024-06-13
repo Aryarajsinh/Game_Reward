@@ -1,0 +1,97 @@
+﻿@{
+    Layout = "~/Views/Shared/_CustomLayout.cshtml";
+}
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card border-left-primary shadow mb-4">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">Total Balance</h5>
+                    <p class="card-text">Balance: <span class="font-weight-bold text-success">@ViewBag.Balanceamount</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card border-left-primary shadow mb-4">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">Total Profit Today</h5>
+                    <p class="card-text ">Profit: <span class="font-weight-bold text-success">+@ViewBag.getTodayProfits</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-5">
+        <h1 class="mb-4">Random Number</h1>
+        <h3 class="randomNumber" style="display: none;"></h3>
+        <button class="btn btn-primary" type="button" id="playButton">Play Game</button>
+        @Html.ActionLink("Back to Home Page", "Index", new { @Controller = "Game" }, htmlAttributes: new { @class = "btn btn-dark ml-3" })
+    </div>
+
+    <div class="card mt-5">
+        <div class="card-body">
+            <h3 class="card-title text-warning">Game Rules</h3>
+            <ul class="list-group">
+                <li class="list-group-item">The user's daily earnings are capped at a maximum of 500 rupees.</li>
+                <li class="list-group-item">The user is granted only three opportunities to play for free.</li>
+                <li class="list-group-item">Once the complimentary attempts have been exhausted, users will be required to pay 20 rupees for each subsequent trial.</li>
+                <li class="list-group-item">The wallet is updated with each generated number.</li>
+                <li class="list-group-item">The money is taken out but the generated number is not added to the wallet if the user plays for 20 rupees and the balance reaches 500 rupees.</li>
+            </ul>
+            <p class="warning-message text-danger mt-3">Please make sure to follow the rules to avoid any inconvenience.</p>
+        </div>
+    </div>
+</div>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#playButton").on("click", function () {
+            var randomNumber = $(".randomNumber");
+            var random = Math.floor(Math.random() * 100) + 1;
+            if (Number(@Session["chance"]) > 0) {
+                $.ajax({
+                    url: "/Game/updateWalletAmount/?id=@Session["UserId"]&amount=" + random,
+                    type: "GET",
+                    success: function (data) {
+                        if (data == 1) {
+                            randomNumber.text(random).show();
+                            setTimeout(function () { window.location.reload(); }, 700);
+                        } else {
+                            alert("Sorry, your today Wallet amount is more than 500. So you can play the game after 24 hours.");
+                            randomNumber.show();
+                            setTimeout(function () { window.location.reload(); }, 700);
+                        }
+                    }
+                });
+            } else {
+                if (confirm("Are you sure you want to play again? 20 rupees will be deducted from your wallet.")) {
+                    $.ajax({
+                        url: "/Game/updateWalletAmount/?id=@Session["UserId"]&amount=" + random,
+                        type: "GET",
+                        success: function (data) {
+                            if (data == 1) {
+                                randomNumber.text(random).show();
+                                setTimeout(function () { window.location.reload(); }, 700);
+                            } else {
+                                alert("Sorry, your today Wallet amount is more than 500. So you can play the game after 24 hours.");
+                               
+                                randomNumber.text(random).show();
+
+                                setTimeout(function () { window.location.reload(); }, 700);
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    });
+   
+</script>
+

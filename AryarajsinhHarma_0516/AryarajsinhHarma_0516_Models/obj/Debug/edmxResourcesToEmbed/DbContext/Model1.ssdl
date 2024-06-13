@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="GameReward_0516Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Credit">
+    <Key>
+      <PropertyRef Name="CreditId" />
+    </Key>
+    <Property Name="CreditId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Userid" Type="int" />
+    <Property Name="CreditAmount" Type="int" />
+    <Property Name="TransactionDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Dredit">
+    <Key>
+      <PropertyRef Name="DebitId" />
+    </Key>
+    <Property Name="DebitId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Userid" Type="int" />
+    <Property Name="DebitAmount" Type="int" />
+    <Property Name="TransactionDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Register">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="40" />
+    <Property Name="email" Type="varchar" MaxLength="40" />
+    <Property Name="password" Type="text" />
+  </EntityType>
+  <EntityType Name="Transactions">
+    <Key>
+      <PropertyRef Name="TransactionId" />
+    </Key>
+    <Property Name="TransactionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="WalletId" Type="int" />
+    <Property Name="Amount" Type="int" />
+    <Property Name="IsDebitCredit" Type="bit" />
+    <Property Name="Time" Type="datetime" />
+    <Property Name="UserId" Type="int" />
+  </EntityType>
+  <EntityType Name="TransactionsHistory">
+    <Key>
+      <PropertyRef Name="Transaction_id" />
+    </Key>
+    <Property Name="Transaction_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="userid" Type="int" />
+    <Property Name="DebitAmount" Type="int" />
+    <Property Name="CreditAmount" Type="int" />
+    <Property Name="TotalAmount" Type="int" />
+    <Property Name="ChanceLeft" Type="int" />
+    <Property Name="TransactionDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Wallet">
+    <Key>
+      <PropertyRef Name="Wallet_id" />
+    </Key>
+    <Property Name="Wallet_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="userid" Type="int" />
+    <Property Name="DebitAmount" Type="int" />
+    <Property Name="creditAmout" Type="int" />
+    <Property Name="totalAmount" Type="int" />
+    <Property Name="DebitDate" Type="datetime" />
+    <Property Name="RemainingChance" Type="int" />
+  </EntityType>
+  <Association Name="FK__Credit__Userid__4316F928">
+    <End Role="Register" Type="Self.Register" Multiplicity="0..1" />
+    <End Role="Credit" Type="Self.Credit" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Register">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Credit">
+        <PropertyRef Name="Userid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Dredit__Userid__4CA06362">
+    <End Role="Register" Type="Self.Register" Multiplicity="0..1" />
+    <End Role="Dredit" Type="Self.Dredit" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Register">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Dredit">
+        <PropertyRef Name="Userid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Transacti__useri__4F7CD00D">
+    <End Role="Register" Type="Self.Register" Multiplicity="0..1" />
+    <End Role="TransactionsHistory" Type="Self.TransactionsHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Register">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="TransactionsHistory">
+        <PropertyRef Name="userid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Transacti__UserI__5AEE82B9">
+    <End Role="Register" Type="Self.Register" Multiplicity="0..1" />
+    <End Role="Transactions" Type="Self.Transactions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Register">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Transactions">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Transacti__Walle__59FA5E80">
+    <End Role="Wallet" Type="Self.Wallet" Multiplicity="0..1" />
+    <End Role="Transactions" Type="Self.Transactions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Wallet">
+        <PropertyRef Name="Wallet_id" />
+      </Principal>
+      <Dependent Role="Transactions">
+        <PropertyRef Name="WalletId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Wallet__userid__571DF1D5">
+    <End Role="Register" Type="Self.Register" Multiplicity="0..1" />
+    <End Role="Wallet" Type="Self.Wallet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Register">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Wallet">
+        <PropertyRef Name="userid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="GameReward_0516ModelStoreContainer">
+    <EntitySet Name="Credit" EntityType="Self.Credit" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Dredit" EntityType="Self.Dredit" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Register" EntityType="Self.Register" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Transactions" EntityType="Self.Transactions" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TransactionsHistory" EntityType="Self.TransactionsHistory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Wallet" EntityType="Self.Wallet" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Credit__Userid__4316F928" Association="Self.FK__Credit__Userid__4316F928">
+      <End Role="Register" EntitySet="Register" />
+      <End Role="Credit" EntitySet="Credit" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Dredit__Userid__4CA06362" Association="Self.FK__Dredit__Userid__4CA06362">
+      <End Role="Register" EntitySet="Register" />
+      <End Role="Dredit" EntitySet="Dredit" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Transacti__useri__4F7CD00D" Association="Self.FK__Transacti__useri__4F7CD00D">
+      <End Role="Register" EntitySet="Register" />
+      <End Role="TransactionsHistory" EntitySet="TransactionsHistory" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Transacti__UserI__5AEE82B9" Association="Self.FK__Transacti__UserI__5AEE82B9">
+      <End Role="Register" EntitySet="Register" />
+      <End Role="Transactions" EntitySet="Transactions" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Transacti__Walle__59FA5E80" Association="Self.FK__Transacti__Walle__59FA5E80">
+      <End Role="Wallet" EntitySet="Wallet" />
+      <End Role="Transactions" EntitySet="Transactions" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Wallet__userid__571DF1D5" Association="Self.FK__Wallet__userid__571DF1D5">
+      <End Role="Register" EntitySet="Register" />
+      <End Role="Wallet" EntitySet="Wallet" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
